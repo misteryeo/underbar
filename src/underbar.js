@@ -179,16 +179,22 @@ _.each = function(collection, iterator) {
   //     return total + number * number;
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
-  _.reduce = function(collection, iterator, accumulator) {
-    _.each(collection, function(item) {   
-      if (accumulator === undefined) {
-        accumulator = item;
-      } else {
-        accumulator = iterator(accumulator, item);
-      }
-    });
-    return accumulator;
-  };
+
+
+     _.reduce = function(collection, iterator, accumulator) {
+ 
+         if (arguments.length === 2) {
+           accumulator = _.first(collection);
+           collection = _.last(collection,collection.length-1);
+         } 
+           _.each(collection, function(item){
+            accumulator = iterator(accumulator,item);
+           });
+        
+ 
+      return accumulator;
+ 
+    };
 
 
   // Determine if the array or object contains a given value (using `===`).
