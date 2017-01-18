@@ -452,6 +452,34 @@
         _.reduce([1, 2, 3, 4], add)
       });
 
+      // it('should be able to sum up an array', function() {
+      //   var add = function(tally, item) {return tally + item; };
+      //   var total = _.reduce([1, 2, 3], add, 0);
+
+      //   expect(total).to.equal(6);
+      // });
+
+      // it('should use the first element as an accumulator when none is given', function() {
+      //   var add = function(tally, item) {return tally + item; };
+      //   var total = _.reduce([1, 2, 3], add);
+
+      //   expect(total).to.equal(6);
+      // });
+
+      // it('should invoke the iterator on the first element when given an accumulator', function() {
+      //   var sumSquares = function(tally, item) {return tally + item * item; };
+      //   var total = _.reduce([2, 3], sumSquares, 0);
+
+      //   expect(total).to.equal(13);
+      // });
+
+      // it('should not invoke the iterator on the first element when using it as an accumulator', function() {
+      //   var sumSquares = function(tally, item) {return tally + item * item; };
+      //   var total = _.reduce([2, 3], sumSquares);
+
+      //   expect(total).to.equal(11);
+      // });
+
       it('should be a function', function() {
         expect(_.reduce).to.be.an.instanceOf(Function);
       });
