@@ -64,7 +64,7 @@ _.each = function(collection, iterator) {
       iterator(collection[objKey], objKey, collection);
     }
   }
-};  
+};
 
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
@@ -100,12 +100,12 @@ _.each = function(collection, iterator) {
   */
 
   _.filter = function(collection, test) {
-    
+
     return _.reduce(collection, function(result, item){
             if (test(item)) {
               result.push(item);
             }
-            return result;  
+            return result;
            }, []);
   }
 
@@ -191,19 +191,19 @@ _.each = function(collection, iterator) {
   // Reduces an array or object to a single value by repetitively calling
   // iterator(accumulator, item) for each item. accumulator should be
   // the return value of the previous iterator call.
-  //  
+  //
   // You can pass in a starting value for the accumulator as the third argument
   // to reduce. If no starting value is passed, the first element is used as
   // the accumulator, and is never passed to the iterator. In other words, in
   // the case where a starting value is not passed, the iterator is not invoked
   // until the second element, with the first element as its second argument.
-  //  
+  //
   // Example:
   //   var numbers = [1,2,3];
   //   var sum = _.reduce(numbers, function(total, number){
   //     return total + number;
   //   }, 0); // should be 6
-  //  
+  //
   //   var identity = _.reduce([5], function(total, number){
   //     return total + number * number;
   //   }); // should be 5, regardless of the iterator function passed in
@@ -211,18 +211,18 @@ _.each = function(collection, iterator) {
 
 
      _.reduce = function(collection, iterator, accumulator) {
- 
+
          if (arguments.length === 2) {
            accumulator = _.first(collection);
            collection = _.last(collection,collection.length-1);
-         } 
+         }
            _.each(collection, function(item){
             accumulator = iterator(accumulator,item);
            });
-        
- 
+
+
       return accumulator;
- 
+
     };
 
 
@@ -252,7 +252,7 @@ _.each = function(collection, iterator) {
       return false;
      }
       return !!(iterator(item));
-      
+
     }, status);
   }
 
@@ -288,7 +288,7 @@ _.each = function(collection, iterator) {
         return true;
       } else if (!iterator(collection)) {
         return false;
-      } 
+      }
       return true;
     });
 
@@ -338,7 +338,7 @@ _.each = function(collection, iterator) {
       for (var key in source) {
         if (key in source !== key in obj) {
           obj[key] = source[key];
-        } 
+        }
       }
     });
       return obj;
@@ -367,7 +367,7 @@ _.each = function(collection, iterator) {
     return function() {
       if (!alreadyCalled) {
         // TIP: .apply(this, arguments) is the standard way to pass on all of the
-        // infromation from one function call to another.
+        // information from one function call to another.
         result = func.apply(this, arguments);
         alreadyCalled = true;
       }
@@ -386,16 +386,17 @@ _.each = function(collection, iterator) {
   // instead if possible.
 
   _.memoize = function(func) {
-    
+    var result = {};
+
     return function() {
-      if (!alreadyCalled) {
-        result = func.apply(this, arguments);
-        alreadyCalled = true;
+      // will check if it has already computed the result for the given argument
+      var arg = Array.prototype.join.call(arguments, '&'); // Don't know why the underscore works??
+      if (result[arg] === undefined) {
+        result[arg] = func.apply(this, arguments);
       }
-      return result;
+      return result[arg];
     };
   };
-
 
 
 
@@ -406,8 +407,13 @@ _.each = function(collection, iterator) {
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
-
+    var arg = Array.prototype.slice.call(arguments, 2);
+  return setTimeout(function(){ // Do we need to return this and the next line?
+    return func.apply(this, arg);
+  }, wait);
   };
+
+
 
 
   /**
