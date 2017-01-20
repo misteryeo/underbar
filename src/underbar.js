@@ -84,6 +84,9 @@ _.each = function(collection, iterator) {
   };
 
   // Return all elements of an array that pass a truth test.
+  /*
+
+  // This is the original function but have refactored using _.reduce.
   _.filter = function(collection, test) {
     var result = [];
 
@@ -94,6 +97,19 @@ _.each = function(collection, iterator) {
     });
     return result;
   }
+  */
+
+  _.filter = function(collection, test) {
+    
+    return _.reduce(collection, function(result, item){
+            if (test(item)) {
+              result.push(item);
+            }
+            return result;  
+           }, []);
+  }
+
+
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
@@ -128,6 +144,7 @@ _.each = function(collection, iterator) {
 
 
   // Return the results of applying an iterator to each element.
+ /*
   _.map = function(collection, iterator) {
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
@@ -140,6 +157,18 @@ _.each = function(collection, iterator) {
 
      return result;
   };
+  */
+
+ _.map = function(collection, iterator) {
+
+  return _.reduce(collection, function(result, item){
+          result.push(iterator(item));
+            return result;
+         }, []);
+
+ };
+
+
 
   /*
    * TIP: map is really handy when you want to transform an array of
@@ -213,14 +242,58 @@ _.each = function(collection, iterator) {
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
-  };
+    iterator = iterator || _.identity;
+    if (collection.length === 0) {
+      return true;
+    }
+
+    return _.reduce(collection, function(status, item){
+     if(status === false) {
+      return false;
+     }
+      return !!(iterator(item));
+      
+    }, status);
+  }
+
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    iterator = iterator || _.identity
+      if (collection.length === 0) {
+        return false;
+      }
+    return _.reduce(collection, function(wasFound, item){
+      if (iterator(item)) {
+        return true
+      }
+      return wasFound;
+    }, false);
+
   };
 
+
+
+/*
+  _.some = function(collection, iterator) {
+    // TIP: There's a very clever way to re-use every() here.
+    iterator = iterator || _.identity
+      if (collection.length === 0) {
+        return false;
+      }
+    return _.every(collection, function(item){
+      if (iterator(collection)) {
+        return true;
+      } else if (!iterator(collection)) {
+        return false;
+      } 
+      return true;
+    });
+
+  };
+*/
 
   /**
    * OBJECTS
@@ -241,11 +314,34 @@ _.each = function(collection, iterator) {
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    _.each(arguments, function(source) {
+      for (var key in source) {
+        obj[key] = source[key];
+      }
+    });
+      return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
+
+
+// Pass in existing object
+// Pass in new set of object keys and values as arguments
+// Loop through the keys within the existing source object
+// Check if keys in existing object match with source object
+// If not, assign source object keys to a new object key and value
+// Return new object
+
   _.defaults = function(obj) {
+    _.each(arguments, function(source) {
+      for (var key in source) {
+        if (key in source !== key in obj) {
+          obj[key] = source[key];
+        } 
+      }
+    });
+      return obj;
   };
 
 
@@ -288,8 +384,20 @@ _.each = function(collection, iterator) {
   // _.memoize should return a function that, when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
+
   _.memoize = function(func) {
+    
+    return function() {
+      if (!alreadyCalled) {
+        result = func.apply(this, arguments);
+        alreadyCalled = true;
+      }
+      return result;
+    };
   };
+
+
+
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
@@ -298,6 +406,7 @@ _.each = function(collection, iterator) {
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+
   };
 
 
