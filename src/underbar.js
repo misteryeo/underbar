@@ -390,7 +390,7 @@ _.each = function(collection, iterator) {
 
     return function() {
       // will check if it has already computed the result for the given argument
-      var arg = Array.prototype.join.call(arguments, '&'); // Don't know why the underscore works??
+      var arg = Array.prototype.join.call(arguments,''); // Don't know why the underscore works??
       if (result[arg] === undefined) {
         result[arg] = func.apply(this, arguments);
       }
@@ -400,21 +400,20 @@ _.each = function(collection, iterator) {
 
 
 
+
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
   //
   // The arguments for the original function are passed after the wait
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
+
   _.delay = function(func, wait) {
     var arg = Array.prototype.slice.call(arguments, 2);
-  return setTimeout(function(){ // Do we need to return this and the next line?
-    return func.apply(this, arg);
+  setTimeout(function(){ // Do we need to return this and the next line? NO
+    func.apply(this, arg);
   }, wait);
   };
-
-
-
 
   /**
    * ADVANCED COLLECTION OPERATIONS
@@ -426,8 +425,20 @@ _.each = function(collection, iterator) {
   // TIP: This function's test suite will ask that you not modify the original
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
+
   _.shuffle = function(array) {
+    var newArr = array.slice();
+      for (var i=array.length-1; i>0; i--) {
+       var rand = Math.round(Math.random() * i);
+       var temp = newArr[rand];
+       newArr[rand] = newArr[i];
+       newArr[i] = temp;
+  }
+  return newArr;
   };
+
+
+
 
 
   /**
@@ -440,7 +451,9 @@ _.each = function(collection, iterator) {
 
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
-  _.invoke = function(collection, functionOrKey, args) {
+  _.invoke = function(collection, functionOrKey, argse) {
+
+
   };
 
   // Sort the object's values by a criterion produced by an iterator.
