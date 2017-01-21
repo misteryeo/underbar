@@ -458,7 +458,7 @@ _.each = function(collection, iterator) {
 
     return _.map(collection, function(item) {
       var result; // Originally didn't have a variable declared
-      if(typeof functionOrKey === 'string') {
+      if(typeof functionOrKey === 'string') { // could we have checked for 'function'
         result = item[functionOrKey];
       }
       else {
@@ -477,7 +477,25 @@ _.each = function(collection, iterator) {
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
-  };
+
+   if (typeof iterator === 'function') {
+    // Call sort method on collection
+    return collection.sort(function(a,b){
+      return iterator(a) - iterator(b);
+    });
+   } else {
+    // Invoke sortBy property
+    return collection.sort(function(a,b){
+      return a[iterator] - b[iterator];
+    });
+   }
+};
+
+/*
+  _.each(collection, function(item) {
+    return item.iterator;
+  });
+*/
 
   // Zip together two or more arrays with elements of the same index
   // going together.
