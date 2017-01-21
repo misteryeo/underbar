@@ -447,14 +447,30 @@ _.each = function(collection, iterator) {
    *
    * Note: This is the end of the pre-course curriculum. Feel free to continue,
    * but nothing beyond here is required.
-   */
-
+  **/
   // Calls the method named by functionOrKey on each value in the list.
-  // Note: You will need to learn a bit about .apply to complete this.
-  _.invoke = function(collection, functionOrKey, argse) {
+  // Note: You will need to learn a bit about .apply to complete th
 
+  _.invoke = function(collection, functionOrKey, argse) {
+    // loop through the elements in the collection
+    // apply functionOrKey to these elements
+    // if there are any optional arguments passed through, apply them to functionOrKey
+
+    return _.map(collection, function(item) {
+      var result; // Originally didn't have a variable declared
+      if(typeof functionOrKey === 'string') {
+        result = item[functionOrKey];
+      }
+      else {
+        result = functionOrKey;
+      }
+
+      return result.apply(item, argse); // Why do we need to use 'item' and not use 'this'
+      // Originally had this outside of the _.map function
+    });
 
   };
+
 
   // Sort the object's values by a criterion produced by an iterator.
   // If iterator is a string, sort objects by that property with the name
