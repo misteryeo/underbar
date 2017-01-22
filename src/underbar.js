@@ -551,9 +551,67 @@ _.each = function(collection, iterator) {
 
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
-  _.intersection = function() {
-  };
+  /*_.intersection = function () {
+    var max = 0;
+    for(var i=0; i < arguments.length; i++) { // Identifies the longest array available in 'arguments'
+      if (max.length < arguments[i].length) {
+        max = arguments[i];
+      }
+    }
+var inEvery = _.every(array, function (item) {
+  if
 
+});
+
+  }
+  */
+  _.intersection = function () {
+    var max = [];
+    var args = Array.prototype.slice.call(arguments);
+    var result = [];
+
+    //first get the longest length args[i] and store it in max // we just need a benchmark array, it doesn't have to be the longest
+    for (var i=0; i<args.length; i++) {
+      if (max.length < args[i].length) {
+        max = args[i];
+      }
+    }
+
+    _.each(max, function(item) { //iterates through longest args[i]
+      var count = 0;
+
+      for (var i=0; i<args.length; i++) { //iterates through all args
+        _.each(args[i], function(value) { //iterates through contents of each arg
+          if (item === value) {
+            count++;
+          }
+        });
+      }
+
+      if(count === args.length) { // counted that value in every args[i]
+        result.push(item);
+      }
+    });
+
+    return result;
+}
+
+
+
+  /*
+  _.intersection = function() {
+    var result = [];
+    var arg = Array.prototype.slice.call(arguments);
+    for (var i=0; i < arg.length; i++) {
+    _.each(arg[i], function(item){
+      if (arg[i] === item) {
+        result.push(item);
+      }
+    });
+    }
+      return result;
+  };
+*/
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
@@ -567,3 +625,34 @@ _.each = function(collection, iterator) {
   _.throttle = function(func, wait) {
   };
 }());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
