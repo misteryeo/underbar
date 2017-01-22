@@ -38,7 +38,7 @@
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
   _.last = function(array, n) {
-    if (n === undefined) {
+   if (n === undefined) {
       return array[array.length-1];
     } else if (n > array.length) {
       return array;
@@ -46,6 +46,8 @@
       return array.slice(array.length-n, array.length);
     }
   };
+
+
 
 
 
@@ -259,7 +261,9 @@ _.each = function(collection, iterator) {
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
+  /*
   _.some = function(collection, iterator) {
+
     // TIP: There's a very clever way to re-use every() here.
     iterator = iterator || _.identity
       if (collection.length === 0) {
@@ -273,28 +277,35 @@ _.each = function(collection, iterator) {
     }, false);
 
   };
+  */
+
+  /*   _.some = function(collection, iterator) {
+    // TIP: There's a very clever way to re-use every() here.
+    iterator = iterator || _.identity;
+    return Boolean(_.reduce(collection, function(memo, item) {
+      return memo || iterator(item);
+    }, false))
+};
+  */
+
+
+  _.some = function(collection, iterator) {
+    // TIP: There's a very clever way to re-use every() here.
+    iterator = iterator || _.identity
+    return !_.every(collection, function(item){
+      return !iterator(item); // If not every item if false, then some will be true
+    });
+  };
 
 
 
 /*
   _.some = function(collection, iterator) {
-    // TIP: There's a very clever way to re-use every() here.
-    iterator = iterator || _.identity
-      if (collection.length === 0) {
-        return false;
-      }
-    return _.every(collection, function(item){
-      if (iterator(collection)) {
-        return true;
-      } else if (!iterator(collection)) {
-        return false;
-      }
-      return true;
-    });
+    return _.every(collection, function(item) {
 
-  };
-*/
-
+    })
+  }
+  */
   /**
    * OBJECTS
    * =======
@@ -682,7 +693,11 @@ var inEvery = _.every(array, function (item) {
   //
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
+
   };
+
+
+
 }());
 
 
