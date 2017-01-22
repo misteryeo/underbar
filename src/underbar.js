@@ -428,7 +428,7 @@ _.each = function(collection, iterator) {
 
   _.shuffle = function(array) {
     var newArr = array.slice();
-      for (var i=array.length-1; i>0; i--) {
+      for (var i=array.length-1; i>=0; i--) {
        var rand = Math.round(Math.random() * i);
        var temp = newArr[rand];
        newArr[rand] = newArr[i];
@@ -436,7 +436,6 @@ _.each = function(collection, iterator) {
   }
   return newArr;
   };
-
 
 
 
@@ -464,7 +463,6 @@ _.each = function(collection, iterator) {
       else {
         result = functionOrKey;
       }
-
       return result.apply(item, argse); // Why do we need to use 'item' and not use 'this'
       // Originally had this outside of the _.map function
     });
@@ -503,6 +501,21 @@ _.each = function(collection, iterator) {
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+    // Iterate through arguments to identify the longest array OR use sort
+    var max = 0;
+    var result = [];
+    for(var i=0; i < arguments.length; i++) { // Identifies the longest array available in 'arguments'
+      if (max < arguments[i].length) {
+        max = arguments[i].length;
+      }
+    }
+    for(var j=0; j < max; j++) { // Looping through indices of the longest array identified
+      result.push([]); // Creates new arrays for each new index
+      for (var k = 0; k < arguments.length; k++) { // Looping through arrays within 'arguments'
+        result[j].push(arguments[k][j]);
+      }
+    }
+    return result;
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
