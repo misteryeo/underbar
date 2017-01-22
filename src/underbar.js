@@ -523,7 +523,31 @@ _.each = function(collection, iterator) {
   //
   // Hint: Use Array.isArray to check if something is an array
   _.flatten = function(nestedArray, result) {
+    return _.reduce(nestedArray, function(accumulator, item) {
+      if(Array.isArray(item)) {
+        return accumulator.concat(_.flatten(item));
+      } else {
+        return accumulator.concat(item);
+      }
+    }, []);
+
   };
+
+
+/*
+  _.flatten = function(nestedArray, result) {
+    return _.reduce(nestedArray, function(accumulator, item) {
+      if(Array.isArray(item)) {
+        accumulator.concat(item);
+      } else {
+        return accumulator.concat([item]);
+      }
+    }, []);
+
+  };
+*/
+// [ 1, [2], [3, [[[4]]]]] ]
+
 
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
