@@ -614,8 +614,67 @@ var inEvery = _.every(array, function (item) {
 */
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
+  /*_.difference = function(array) {
+    // Establish empty results array
+    var result = [];
+    // Make arguments an array
+    var args = Array.prototype.slice.call(arguments);
+
+    _.each(args[0], function(item) {  // Loop through passed in array as a benchmark
+      var isShared = true;
+       for (var i=1; i < args.length; i++) { // Loop through arguments to access other arrays passed in
+        _.each(args[i], function(value) { // Loop through elements in each other array passed in
+          if (item !== value) { // Set conditional to check if element in array does not exist in the other arrays passed through
+            isShared = false;
+          }
+
+        });
+
+      }
+      if(!isShared) {
+      result.push(item);  // If this returns true, push to results array
+      }
+
+    });
+    return result; // Return result
+  };*/
+
   _.difference = function(array) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    var otherArr = _.flatten(args);
+    return _.filter(array, function(item){
+      return !_.contains(otherArr, item);
+    });
   };
+
+
+
+
+// filter check !contains
+
+/*
+  _.difference = function(array) {
+    // Establish empty results array
+    var result = [];
+    // Make arguments an array
+    var args = Array.prototype.slice.call(arguments);
+
+    _.each(array[0], function(item) {  // Loop through passed in array as a benchmark
+       for (var i=0; i<args.length; i++) { // Loop through arguments to access other arrays passed in
+        _.each(args[i], function(value) { // Loop through elements in each other array passed in
+          if (item !== value) { // Set conditional to check if element in array does not exist in the other arrays passed through
+            result.push(item);  // If this returns true, push to results array
+          }
+
+        });
+
+      }
+
+    });
+    return result; // Return result
+  };
+*/
+
 
   // Returns a function, that, when invoked, will only be triggered at most once
   // during a given window of time.  See the Underbar readme for extra details
